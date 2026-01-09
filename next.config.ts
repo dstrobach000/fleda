@@ -10,35 +10,13 @@ const nextConfig: NextConfig = {
     ppr: false,
     optimizePackageImports: ['@react-three/fiber', '@react-three/drei', 'three'],
   },
+  // Explicit Turbopack config (Next 16 defaults to Turbopack for builds).
+  // We keep this object even if empty to avoid Next treating "custom webpack config"
+  // as an accidental misconfiguration.
+  turbopack: {},
   compress: true,
   poweredByHeader: false,
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-    
-    // Optimize Three.js bundle
-    config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
-      use: ['raw-loader', 'glslify-loader'],
-    });
-    
-    return config;
-  },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cdn.sanity.io',
-        port: '',
-        pathname: '/images/yfd7xjeg/production/**',
-      },
-    ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],

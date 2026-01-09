@@ -156,7 +156,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           <GlowButton
             onClick={onPillClick}
             className={`inline-block px-6 py-2 text-sm font-light text-black ${buttonClassName || ""}`}
-            glowColor="bg-[#a3f730]"
+            glowColor="bg-orange-500"
             floating={false}
             type="button"
           >

@@ -13,7 +13,7 @@ const MenuButton = ({
   <div className="fixed z-50" style={{ left: 'max(1rem, calc(50% - 448px - 4rem))', top: '4.5rem' }}>
     <GlowButton
       onClick={onClick}
-      glowColor="bg-[#a3f730]"
+      glowColor="bg-orange-500"
       className={`text-lg ${className}`}
       floating={true}
     >

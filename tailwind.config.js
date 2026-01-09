@@ -36,7 +36,6 @@ module.exports = {
       animation: {
         pendulum:   'pendulum var(--speed, 8s) ease-in-out infinite',
         float:      'float 2s ease-in-out infinite',
-        // alternate so it bounces back and forth
         scrollRight: 'scrollRight 15s linear infinite alternate',
       },
     },

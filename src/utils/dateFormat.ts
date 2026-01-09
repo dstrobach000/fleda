@@ -38,9 +38,9 @@ export function formatExhibitionDate(
     const endYear = end.getUTCFullYear();
 
     if (startMonth === endMonth) {
-      return `${startDay}. – ${endDay}. ${endMonth}. ${endYear}`;
+      return `${startDay}. - ${endDay}. ${endMonth}. ${endYear}`;
     } else {
-      return `${startDay}. ${startMonth}. – ${endDay}. ${endMonth}. ${endYear}`;
+      return `${startDay}. ${startMonth}. - ${endDay}. ${endMonth}. ${endYear}`;
     }
   }
   
@@ -62,13 +62,13 @@ export function formatUpcomingRange(startDate?: string, endDate?: string): strin
   // Check if dates are valid
   if (isNaN(start.getTime()) || isNaN(end.getTime())) {
     console.warn('Invalid date range:', { startDate, endDate });
-    return `${startDate} – ${endDate}`;
+    return `${startDate} - ${endDate}`;
   }
   
   if (start.getUTCFullYear() === end.getUTCFullYear() && start.getUTCMonth() === end.getUTCMonth()) {
-    return `${start.getUTCDate()}. – ${end.getUTCDate()}. ${end.getUTCMonth() + 1}. ${end.getUTCFullYear()}`;
+    return `${start.getUTCDate()}. - ${end.getUTCDate()}. ${end.getUTCMonth() + 1}. ${end.getUTCFullYear()}`;
   } else {
-    return `${start.getUTCDate()}. ${start.getUTCMonth() + 1}. ${start.getUTCFullYear()} – ${end.getUTCDate()}. ${end.getUTCMonth() + 1}. ${end.getUTCFullYear()}`;
+    return `${start.getUTCDate()}. ${start.getUTCMonth() + 1}. ${start.getUTCFullYear()} - ${end.getUTCDate()}. ${end.getUTCMonth() + 1}. ${end.getUTCFullYear()}`;
   }
 }
 
@@ -99,4 +99,82 @@ export function formatUpcomingVernissage(vernissageDate?: string): string {
   const pad = (n: number) => n < 10 ? "0" + n : n;
   
   return `vernisáž: ${date.getDate()}. ${date.getMonth() + 1}. ${date.getFullYear()} v ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+/**
+ * Format program event date (UTC-safe, matches Program section formatting)
+ */
+export function formatProgramEventDate(isoDate?: string) {
+  if (!isoDate) return "";
+  const d = new Date(isoDate + "T00:00:00.000Z");
+  if (Number.isNaN(d.getTime())) return isoDate;
+  return `${d.getUTCDate()}. ${d.getUTCMonth() + 1}. ${d.getUTCFullYear()}`;
+}
+
+/**
+ * Format Czech weekday short code from ISO date (UTC-safe)
+ */
+export function formatCzWeekdayShort(isoDate?: string) {
+  if (!isoDate) return "";
+  const d = new Date(isoDate + "T00:00:00.000Z");
+  if (Number.isNaN(d.getTime())) return "";
+  const day = d.getUTCDay(); // 0..6 (Sun..Sat)
+  const map: Record<number, string> = {
+    0: "NE",
+    1: "PO",
+    2: "ÚT",
+    3: "ST",
+    4: "ČT",
+    5: "PÁ",
+    6: "SO",
+  };
+  return map[day] ?? "";
+}
+
+/**
+ * Format Czech long date from ISO date (UTC-safe).
+ * Example: "12. ledna 2026"
+ */
+export function formatCzDateLong(isoDate?: string) {
+  if (!isoDate) return "";
+  const d = new Date(isoDate + "T00:00:00.000Z");
+  if (Number.isNaN(d.getTime())) return isoDate;
+
+  const monthsGenitive = [
+    "ledna",
+    "února",
+    "března",
+    "dubna",
+    "května",
+    "června",
+    "července",
+    "srpna",
+    "září",
+    "října",
+    "listopadu",
+    "prosince",
+  ];
+  const m = monthsGenitive[d.getUTCMonth()] ?? String(d.getUTCMonth() + 1);
+  return `${d.getUTCDate()}. ${m} ${d.getUTCFullYear()}`;
+}
+
+/**
+ * Format Czech full weekday name from ISO date (UTC-safe).
+ * Example: "pondělí"
+ */
+export function formatCzWeekdayLong(isoDate?: string) {
+  if (!isoDate) return "";
+  const d = new Date(isoDate + "T00:00:00.000Z");
+  if (Number.isNaN(d.getTime())) return "";
+  const day = d.getUTCDay(); // 0..6 (Sun..Sat)
+  const map: Record<number, string> = {
+    0: "neděle",
+    1: "pondělí",
+    2: "úterý",
+    3: "středa",
+    4: "čtvrtek",
+    5: "pátek",
+    6: "sobota",
+  };
+  return map[day] ?? "";
 }

@@ -116,7 +116,7 @@ const Modal = ({
       <StickyCloseButton onClick={onClose} />
       
       <div
-        className={`fixed inset-0 z-50 bg-white text-black overscroll-contain modal-container ${
+        className={`fixed inset-0 z-50 bg-gray-200 text-black overscroll-contain modal-container ${
           fullscreen ? "p-0" : noPadding ? "p-0" : "p-0"
         }`}
         style={{ 
@@ -148,7 +148,7 @@ const Modal = ({
           // Force hardware acceleration
           willChange: 'transform',
           // Prevent any content from showing through
-          backgroundColor: 'white'
+          backgroundColor: 'rgb(229 231 235)'
         }}
         onClick={closeOnBackdropClick ? onClose : undefined}
       >
@@ -157,7 +157,7 @@ const Modal = ({
           <div
             className={`mx-auto h-full relative modal-content ${
               fullscreen
-                ? "bg-white"
+                ? "bg-gray-200"
                 : "w-full bg-transparent shadow-none border-none pt-6 px-6 h-full"
             }`}
             style={fullscreen ? {} : { 

@@ -19,7 +19,7 @@ const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, vernissag
         <div className="w-full">
           <GlowButton
             className="w-full py-4 text-xl font-light"
-            glowColor="bg-[#a3f730]"
+            glowColor="bg-orange-500"
             link={link}
           >
           <div className="w-full px-2 md:px-6">

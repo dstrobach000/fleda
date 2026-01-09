@@ -9,7 +9,7 @@ interface GlowBoxProps {
 const GlowBox = ({
   children,
   className = "",
-  glowColor = "bg-[#a3f730]",
+  glowColor = "bg-orange-500",
 }: GlowBoxProps) => (
   <div
     className={`relative inline-block rounded-full px-6 py-2 text-lg font-light text-black isolate ${className}`}

@@ -11,20 +11,7 @@ export default function TitleSetter() {
     if (typeof window === 'undefined') return;
     
     // Set the title based on the current path
-    let title = 'Spektrum galerie';
-    
-    if (pathname === '/press') {
-      title = 'Ke stažení | Spektrum galerie';
-    } else if (pathname === '/kontakt') {
-      title = 'Kontakty | Spektrum galerie';
-    } else if (pathname === '/privacy') {
-      title = 'Zásady ochrany osobních údajů | Spektrum galerie';
-    } else if (pathname.startsWith('/exhibition/')) {
-      // For exhibition pages, we need to extract the slug and fetch the title
-      // For now, we'll use a generic title that will be updated by the modal
-      title = 'Výstava | Spektrum galerie';
-    }
-    
+    const title = 'Fleda';
     document.title = title;
   }, [pathname]);
 

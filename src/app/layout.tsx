@@ -11,42 +11,40 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://spektrumgalerie.cz"),
+  metadataBase: new URL("https://fleda.cz"),
   title: {
-    default: "Spektrum galerie",
-    template: "%s | Spektrum galerie",
+    default: "Fleda",
+    template: "%s | Fleda",
   },
   description:
-    "Spektrum galerie — experimentální prostor pro současné umění v Praze. Výstavy, akce, kontakty a tiskové materiály.",
-  keywords: ["galerie", "současné umění", "Praha", "výstavy", "umění", "Spektrum galerie"],
-  authors: [{ name: "Spektrum galerie" }],
+    "Fleda - experimentální prostor pro současné umění. Výstavy, akce, kontakty a tiskové materiály.",
+  keywords: ["galerie", "současné umění", "výstavy", "umění", "Fleda"],
+  authors: [{ name: "Fleda" }],
   icons: [
     { rel: "icon", url: "/favicon.png", sizes: "32x32" },
     { rel: "icon", url: "/favicon.ico", sizes: "16x16" },
   ],
   openGraph: {
-    siteName: "Spektrum galerie",
+    siteName: "Fleda",
     type: "website",
     locale: "cs_CZ",
-    title: "Spektrum galerie",
+    title: "Fleda",
     description:
-      "Spektrum galerie — experimentální prostor pro současné umění v Praze. Výstavy, akce, kontakty a tiskové materiály.",
-    url: "https://spektrumgalerie.cz",
+      "Fleda - experimentální prostor pro současné umění. Výstavy, akce, kontakty a tiskové materiály.",
+    url: "https://fleda.cz",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Spektrum galerie",
+    title: "Fleda",
     description:
-      "Spektrum galerie — experimentální prostor pro současné umění v Praze. Výstavy, akce, kontakty a tiskové materiály.",
+      "Fleda - experimentální prostor pro současné umění. Výstavy, akce, kontakty a tiskové materiály.",
   },
 };
 
 export default function RootLayout({
   children,
-  modal,
 }: {
   children: ReactNode;
-  modal: ReactNode;
 }) {
   return (
     <html lang="cs">
@@ -83,7 +81,6 @@ export default function RootLayout({
       <body>
         <TitleSetter />
         {children}
-        {modal}
         <CookieBanner />
       </body>
     </html>

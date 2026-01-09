@@ -24,7 +24,7 @@ const StickyCloseButton = ({ label = "Zavřít", className = "", onClick }: Prop
   return (
     <div className="fixed" style={{ left: 'max(1rem, calc(50% - 448px - 4rem))', top: '4.5rem', zIndex: 10000 }}>
       <GlowButton
-        glowColor="bg-[#a3f730]"
+        glowColor="bg-orange-500"
         onClick={onClick ?? handleDefault}
         className={`text-lg ${className}`}
         floating={true}

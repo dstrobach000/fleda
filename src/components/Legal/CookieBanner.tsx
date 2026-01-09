@@ -30,20 +30,16 @@ export default function CookieBanner() {
       aria-label="Informace o cookies"
     >
       <div className="max-w-4xl mx-auto pointer-events-auto">
-        <div className="border border-black rounded-xl bg-white p-4 sm:p-5 shadow-sm">
+        <div className="border border-black rounded-xl bg-gray-200 p-4 sm:p-5 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <p className="text-sm leading-snug font-light text-black">
               Tento web používá pouze nezbytné cookies k zajištění základních funkcí.
-              Více informací naleznete v{" "}
-              <a href="/privacy" className="underline">
-                Zásadách ochrany osobních údajů
-              </a>
-              .
+              Více informací bude doplněno.
             </p>
             <GlowButton
               onClick={accept}
               className="px-4 py-2 text-sm"
-              glowColor="bg-[#a3f730]"
+              glowColor="bg-orange-500"
               floating={false}
             >
               Rozumím

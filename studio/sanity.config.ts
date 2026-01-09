@@ -11,10 +11,10 @@ import {structure} from './structure';
 
 export default defineConfig({
   name: 'default',
-  title: 'Spektrum Galerie',
+  title: 'Fleda',
 
   // ⬇️ keep the same values you already had here
-  projectId: 'yfd7xjeg',
+  projectId: 'rw346rj2',
   dataset: 'production',
 
   // For managed Studio at spektrumgalerie.sanity.studio this is fine:
