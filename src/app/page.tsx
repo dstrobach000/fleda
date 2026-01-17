@@ -10,8 +10,8 @@ export default function Home() {
       <div className="max-w-4xl mx-auto w-full">
         <div className="flex-grow">
           <Header />
-          <div className="sticky top-0 z-50 bg-transparent">
-            <div className="px-6 pt-2 pb-2">
+          <div className="sm:sticky sm:top-0 z-50 bg-transparent">
+            <div className="px-6 pt-0 pb-2 sm:pt-2">
               <Navigation />
             </div>
           </div>

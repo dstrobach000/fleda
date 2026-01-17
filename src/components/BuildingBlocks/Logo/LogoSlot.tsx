@@ -6,7 +6,8 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
 
-const SVG_SOURCE = `
+const SVG_URL = "/logos/fleda.svg";
+const FALLBACK_SVG_SOURCE = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1366 341.56">
   <path d="M79.16,341.56H0V96.9h227.25v70.29H79.16v37.88h145.7v66.88H79.16v69.61Z"/>
   <path d="M258.93,96.9h85.3v167.88h137.51v76.77h-222.81V96.9Z"/>
@@ -48,8 +49,25 @@ function OrthoFit({ box, padding = 1.0 }: { box: THREE.Box3 | null; padding?: nu
 function ExtrudedFleda({ onBox }: { onBox: (box: THREE.Box3) => void }) {
   const group = useRef<THREE.Group>(null);
 
+  const [svgSource, setSvgSource] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch(SVG_URL)
+      .then((res) => (res.ok ? res.text() : Promise.reject(res.status)))
+      .then((text) => {
+        if (active) setSvgSource(text);
+      })
+      .catch(() => {
+        if (active) setSvgSource(FALLBACK_SVG_SOURCE);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const { geometries, material } = useMemo(() => {
-    const data = new SVGLoader().parse(SVG_SOURCE);
+    const data = new SVGLoader().parse(svgSource ?? FALLBACK_SVG_SOURCE);
     const depth = 180; // extrusion depth (in SVG units)
     // NOTE: The SVG is in very large units (~1366 wide), so bevel values need to be
     // noticeable in that space. More segments makes it look "rounded/bouncy".
@@ -99,7 +117,7 @@ function ExtrudedFleda({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     });
 
     return { geometries: geoms, material: mat };
-  }, []);
+  }, [svgSource]);
 
   useEffect(() => {
     if (!group.current) return;
@@ -199,7 +217,7 @@ export default function LogoSlot() {
   }, []);
 
   return (
-    <div className="aspect-3/1 w-full h-[150px] md:h-auto flex items-start justify-center">
+    <div className="aspect-3/1 w-full h-[120px] sm:h-[150px] md:h-auto flex items-start justify-center">
       <div
         ref={rotatorRef}
         className="w-full h-full flex items-start justify-center"

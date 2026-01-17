@@ -60,7 +60,7 @@ export default function ProgramCalendar() {
           <span>Spektrum bar</span>
         </div>
         <div className="inline-flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-[#6e5a23] border border-black" />
+          <span className="w-3 h-3 rounded-full bg-[#2f5bff] border border-black" />
           <span>Fraktal</span>
         </div>
       </div>

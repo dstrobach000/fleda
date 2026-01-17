@@ -5,6 +5,8 @@ interface GlowButtonProps {
   children: React.ReactNode;
   className?: string;
   glowColor?: string;
+  glowClassName?: string;
+  glowStyle?: React.CSSProperties;
   type?: "button" | "submit" | "reset";
   link?: string;
   floating?: boolean;
@@ -15,6 +17,8 @@ const GlowButton = ({
   children,
   className = "",
   glowColor = "bg-orange-500",
+  glowClassName = "",
+  glowStyle,
   type = "button",
   link,
   floating = true,
@@ -28,10 +32,11 @@ const GlowButton = ({
   const inner = (
     <>
       <span
-        className={`absolute inset-0 -m-2 rounded-full blur-md pointer-events-none ${glowColor}`}
+        className={`glow-span absolute inset-0 -m-2 rounded-full blur-md pointer-events-none ${glowColor} ${glowClassName}`}
         style={{
           willChange: "transform, filter",
           transform: "translateZ(0)",
+          ...glowStyle,
         }}
       ></span>
       <span className="relative z-10">{children}</span>

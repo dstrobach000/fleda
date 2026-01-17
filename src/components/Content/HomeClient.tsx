@@ -29,7 +29,7 @@ export default function HomeClient() {
   return (
     <>
       {showScrollButton && (
-        <div className="fixed bottom-4 right-4 z-50 lg:hidden">
+        <div className="fixed bottom-24 right-4 z-50 lg:hidden">
           <GlowButton
             onClick={scrollToTop}
             className="p-3 text-xl"

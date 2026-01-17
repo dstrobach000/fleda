@@ -15,7 +15,7 @@ export default function HeaderTopControls() {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-0 flex-wrap gap-2 w-full min-w-0">
+      <div className="hidden sm:flex justify-between items-center mb-0 flex-wrap gap-2 w-full min-w-0">
         <div className="flex gap-2 flex-shrink-0">
           {socialLinks.map((social) => (
             <div key={social.name} className="p-1 flex-shrink-0">

@@ -13,7 +13,7 @@ const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot
 
 const Header = () => {
   return (
-    <section className="px-6 pt-1 pb-1 relative" id="header">
+    <section className="px-6 pt-1 pb-0 relative" id="header">
       <HeaderTopControls />
       {/* Logo full width */}
       <div className="w-full min-w-0 bg-gray-200">

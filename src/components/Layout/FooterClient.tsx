@@ -108,7 +108,7 @@ export default function FooterClient() {
           <GlowButton
             link="https://instagram.com/fraktal_noise"
             className="px-4 py-2 text-base md:text-lg self-center"
-            glowColor="bg-[#6e5a23]"
+            glowColor="bg-[#2f5bff]"
             floating={false}
           >
             Fraktal

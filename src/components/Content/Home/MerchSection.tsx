@@ -5,7 +5,7 @@ import Image from "next/image";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import Section from "./Section";
 
-const BG_COLORS = ["bg-[#a3f730]", "bg-[#ff9ff5]", "bg-[#6e5a23]", "bg-gray-300"] as const;
+const BG_COLORS = ["bg-[#a3f730]", "bg-[#ff9ff5]", "bg-[#2f5bff]", "bg-gray-300"] as const;
 
 function pickRandomBg(prev?: (typeof BG_COLORS)[number]) {
   if (BG_COLORS.length <= 1) return BG_COLORS[0];
@@ -60,6 +60,8 @@ export default function MerchSection() {
             fill
             sizes="(max-width: 768px) 100vw, 896px"
             className="object-cover md:object-contain"
+            // Bypass Next image optimization to preserve alpha if optimization flattens it.
+            unoptimized
           />
 
           {/* OBCHOD centered over the carousel */}
