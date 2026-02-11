@@ -1,13 +1,4 @@
-import exhibitionType from './exhibition'
-import contact from './contact';
-import upcomingExhibition from './upcomingExhibition';
-import press from './press'
-import pressLink from './objects/pressLink'
+import page from './page'
+import siteSettings from './siteSettings'
 
-export const schemaTypes = [
-  exhibitionType,
-  contact,
-  upcomingExhibition,
-  pressLink,
-  press
-]
+export const schemaTypes = [siteSettings, page]
