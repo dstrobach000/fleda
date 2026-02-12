@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-html,
-body {
-  background-color: #e5e7eb; /* gray-200 */
-}
-
-
 /* iOS Safari/Chrome viewport height fixes */
 @supports not (height: 100dvh) {
   .modal-container {
@@ -125,3 +119,15 @@ body {
   stroke-dashoffset: 100%;
 }
 
+/* Endless marquee (used by Upcoming hero pill) */
+@keyframes upcomingMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}.animate-upcoming-marquee {
+  animation: upcomingMarquee 8s linear infinite;
+  will-change: transform;
+}

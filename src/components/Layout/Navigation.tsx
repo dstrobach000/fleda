@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import SearchOverlay from "@/components/BuildingBlocks/SearchOverlay";
 
 export default function Navigation() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -12,12 +15,12 @@ export default function Navigation() {
   const menuPopoverRef = useRef<HTMLDivElement | null>(null);
 
   const menuItems = [
-    { label: "Upcoming", href: "#upcoming" },
-    { label: "Program", href: "#program" },
-    { label: "Novinky", href: "#novinky" },
-    { label: "Fotoreporty", href: "#fotoreporty" },
-    { label: "Merch", href: "#merch" },
-    { label: "Footer", href: "#footer" },
+    { label: "Upcoming", href: isHome ? "#upcoming" : "/#upcoming" },
+    { label: "Program", href: "/program" },
+    { label: "Novinky", href: isHome ? "#novinky" : "/#novinky" },
+    { label: "Fotoreporty", href: isHome ? "#fotoreporty" : "/#fotoreporty" },
+    { label: "Merch", href: isHome ? "#merch" : "/#merch" },
+    { label: "Footer", href: isHome ? "#footer" : "/#footer" },
   ];
 
   const socialLinks = [
@@ -74,7 +77,7 @@ export default function Navigation() {
       <div className={`flex items-center gap-2 w-full ${floating ? "pointer-events-auto" : ""}`}>
         <div className="flex-1">
           <GlowButton
-            link="#program"
+            link="/program"
             glowColor="bg-orange-500"
             floating={false}
             className="w-full text-center"
@@ -185,4 +188,3 @@ export default function Navigation() {
     <NavigationContent />
   );
 }
-

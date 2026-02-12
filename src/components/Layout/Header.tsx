@@ -2,6 +2,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import HeaderTopControls from "@/components/Layout/HeaderTopControls";
 
 const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot"), {
@@ -17,7 +18,9 @@ const Header = () => {
       <HeaderTopControls />
       {/* Logo full width */}
       <div className="w-full min-w-0 bg-gray-200">
-        <LogoSlot />
+        <Link href="/" aria-label="Fléda domů" className="block">
+          <LogoSlot />
+        </Link>
       </div>
     </section>
   );

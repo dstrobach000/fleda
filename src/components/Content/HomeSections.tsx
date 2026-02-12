@@ -5,16 +5,20 @@ import UpcomingEvents from "@/components/Content/Home/UpcomingEvents";
 import ProgramAndNewsSection from "@/components/Content/Home/ProgramAndNewsSection";
 import FotoreportySection from "@/components/Content/Home/FotoreportySection";
 import MerchSection from "@/components/Content/Home/MerchSection";
+import type { CalendarEvent } from "@/types/program";
 
-export default function HomeSections() {
+type HomeSectionsProps = {
+  programEvents: CalendarEvent[];
+};
+
+export default function HomeSections({ programEvents }: HomeSectionsProps) {
   return (
     <>
       <UpcomingEvents />
-      <ProgramAndNewsSection />
+      <ProgramAndNewsSection programEvents={programEvents} />
       <FotoreportySection />
       <MerchSection />
     </>
   );
 }
-
 

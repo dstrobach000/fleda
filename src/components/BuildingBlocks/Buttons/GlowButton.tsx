@@ -53,11 +53,14 @@ const GlowButton = ({
 
   if (link) {
     const isAnchor = link.startsWith("#");
+    const isInternalPath =
+      link.startsWith("/") || link.startsWith("./") || link.startsWith("../");
+    const openInNewTab = !isAnchor && !isInternalPath;
     return (
       <a
         href={link}
         {...commonProps}
-        {...(!isAnchor && { target: "_blank", rel: "noopener noreferrer" })}
+        {...(openInNewTab && { target: "_blank", rel: "noopener noreferrer" })}
         style={{ textDecoration: "none" }}
       >
         {inner}

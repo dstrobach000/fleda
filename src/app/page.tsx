@@ -3,8 +3,11 @@ import Navigation from "@/components/Layout/Navigation";
 import Header from "@/components/Layout/Header";
 import HomeClient from "@/components/Content/HomeClient";
 import HomeSections from "@/components/Content/HomeSections";
+import { getProgramCalendarEvents } from "@/lib/programEvents";
 
-export default function Home() {
+export default async function Home() {
+  const programEvents = await getProgramCalendarEvents();
+
   return (
     <main className="bg-gray-200 text-black font-sans flex flex-col min-h-screen relative">
       <div className="max-w-4xl mx-auto w-full">
@@ -15,13 +18,13 @@ export default function Home() {
               <Navigation />
             </div>
           </div>
-          <HomeSections />
+          <HomeSections programEvents={programEvents} />
         </div>
       </div>
-      
+
       {/* Full-width border */}
       <div className="border-t border-black w-full"></div>
-      
+
       <HomeClient />
     </main>
   );
