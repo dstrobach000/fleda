@@ -73,6 +73,13 @@ export default defineType({
       description: 'Time shown on the website (HH:mm). Keep empty for all-day events.',
     }),
     defineField({
+      name: 'description',
+      title: 'Popis akce',
+      type: 'array',
+      of: [{type: 'block'}],
+      description: 'Rich text description shown on the event detail page.',
+    }),
+    defineField({
       name: 'venueNeedsReview',
       title: 'Venue needs review',
       type: 'boolean',
@@ -112,6 +119,61 @@ export default defineType({
       title: 'Google event URL',
       type: 'url',
       readOnly: true,
+    }),
+    defineField({
+      name: 'facebookEventLink',
+      title: 'Facebook event URL',
+      type: 'url',
+      description: 'Optional public Facebook event link shown on the website event detail.',
+      validation: (rule) =>
+        rule.uri({
+          scheme: ['http', 'https'],
+          allowRelative: false,
+        }),
+    }),
+    defineField({
+      name: 'gooutIframeUrl',
+      title: 'goout iframe URL',
+      type: 'url',
+      description: 'Embed URL used for goout iframe placeholder.',
+      validation: (rule) =>
+        rule.uri({
+          scheme: ['http', 'https'],
+          allowRelative: false,
+        }),
+    }),
+    defineField({
+      name: 'smsticketIframeUrl',
+      title: 'smsticket iframe URL',
+      type: 'url',
+      description: 'Embed URL used for smsticket iframe placeholder.',
+      validation: (rule) =>
+        rule.uri({
+          scheme: ['http', 'https'],
+          allowRelative: false,
+        }),
+    }),
+    defineField({
+      name: 'youtubeEmbedUrl',
+      title: 'YouTube embed URL',
+      type: 'url',
+      description: 'Optional YouTube embed URL for event detail.',
+      validation: (rule) =>
+        rule.uri({
+          scheme: ['http', 'https'],
+          allowRelative: false,
+        }),
+    }),
+    defineField({
+      name: 'spotifyEmbedUrl',
+      title: 'Spotify embed URL',
+      type: 'url',
+      description: 'Optional Spotify embed URL for event detail.',
+      validation: (rule) =>
+        rule.uri({
+          scheme: ['http', 'https'],
+          allowRelative: false,
+        }),
     }),
     defineField({
       name: 'googleStatus',

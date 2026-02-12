@@ -10,6 +10,7 @@ interface GlowButtonProps {
   type?: "button" | "submit" | "reset";
   link?: string;
   floating?: boolean;
+  forceNewTab?: boolean;
 }
 
 const GlowButton = ({
@@ -22,6 +23,7 @@ const GlowButton = ({
   type = "button",
   link,
   floating = true,
+  forceNewTab = false,
 }: GlowButtonProps) => {
   const animationClass = floating ? "animate-float-pulse" : "";
   const commonProps = {
@@ -55,7 +57,7 @@ const GlowButton = ({
     const isAnchor = link.startsWith("#");
     const isInternalPath =
       link.startsWith("/") || link.startsWith("./") || link.startsWith("../");
-    const openInNewTab = !isAnchor && !isInternalPath;
+    const openInNewTab = forceNewTab || (!isAnchor && !isInternalPath);
     return (
       <a
         href={link}

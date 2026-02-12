@@ -42,7 +42,7 @@ export default function HomeClient() {
       )}
 
       {/* Footer with ref for scroll-to-top button */}
-      <div className="max-w-4xl mx-auto w-full">
+      <div className="max-w-[1200px] mx-auto w-full">
         <Footer ref={footerRef} />
       </div>
     </>

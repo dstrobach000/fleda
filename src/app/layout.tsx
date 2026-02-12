@@ -8,6 +8,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#e5e7eb",
 };
 
 export const metadata: Metadata = {
@@ -47,7 +48,7 @@ export default function RootLayout({
   children: ReactNode;
 }) {
   return (
-    <html lang="cs">
+    <html lang="cs" className="bg-gray-200">
       <head>
         <link
           rel="preload"
@@ -78,7 +79,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body>
+      <body className="bg-gray-200">
         <TitleSetter />
         {children}
         <CookieBanner />

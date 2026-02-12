@@ -9,7 +9,7 @@ const Footer = forwardRef<HTMLElement, { noPadding?: boolean }>(({ noPadding = f
       className="bg-gray-200 py-6"
       id="footer"
     >
-      <div className={`w-full max-w-4xl mx-auto ${noPadding ? '' : 'px-6'}`}>
+      <div className={`w-full max-w-[1200px] mx-auto ${noPadding ? '' : 'px-6'}`}>
         <FooterClient />
 
         <div className="mt-8 flex flex-col items-center w-full">

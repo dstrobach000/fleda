@@ -29,7 +29,7 @@ export default function CookieBanner() {
       aria-live="polite"
       aria-label="Informace o cookies"
     >
-      <div className="max-w-4xl mx-auto pointer-events-auto">
+      <div className="max-w-[1200px] mx-auto pointer-events-auto">
         <div className="border border-black rounded-xl bg-gray-200 p-4 sm:p-5 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <p className="text-sm leading-snug font-light text-black">

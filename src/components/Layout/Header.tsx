@@ -17,7 +17,7 @@ const Header = () => {
     <section className="px-6 pt-1 pb-0 relative" id="header">
       <HeaderTopControls />
       {/* Logo full width */}
-      <div className="w-full min-w-0 bg-gray-200">
+      <div className="w-full max-w-[920px] mx-auto min-w-0 bg-gray-200">
         <Link href="/" aria-label="Fléda domů" className="block">
           <LogoSlot />
         </Link>
