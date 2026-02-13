@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 type EventTagButtonProps = {
   href?: string;
@@ -30,6 +31,18 @@ export default function EventTagButton({
   );
 
   if (href) {
+    const isAnchor = href.startsWith("#");
+    const isInternalPath =
+      href.startsWith("/") || href.startsWith("./") || href.startsWith("../");
+
+    if (isInternalPath && !isAnchor) {
+      return (
+        <Link href={href} className={tagClassName} style={{ textDecoration: "none" }}>
+          {inner}
+        </Link>
+      );
+    }
+
     return (
       <a href={href} className={tagClassName} style={{ textDecoration: "none" }}>
         {inner}

@@ -12,7 +12,7 @@ export default function NovinkySection() {
           <div className="flex flex-wrap items-center gap-2 text-xs font-light text-black/70 mb-3">
             <span className="whitespace-nowrap">12. 01. 26</span>
             <span className="opacity-60"> - </span>
-            <span className="whitespace-nowrap">Fléda</span>
+            <span className="whitespace-nowrap">Fleda</span>
             <span className="opacity-60"> - </span>
             <span className="whitespace-nowrap">Novinka</span>
           </div>
@@ -28,7 +28,7 @@ export default function NovinkySection() {
           <div className="flex flex-wrap items-center gap-2 text-xs font-light text-black/70 mb-3">
             <span className="whitespace-nowrap">05. 01. 26</span>
             <span className="opacity-60"> - </span>
-            <span className="whitespace-nowrap">Fléda</span>
+            <span className="whitespace-nowrap">Fleda</span>
             <span className="opacity-60"> - </span>
             <span className="whitespace-nowrap">Oznámení</span>
           </div>

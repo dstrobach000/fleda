@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 interface GlowButtonProps {
   onClick?: () => void;
@@ -58,6 +59,20 @@ const GlowButton = ({
     const isInternalPath =
       link.startsWith("/") || link.startsWith("./") || link.startsWith("../");
     const openInNewTab = forceNewTab || (!isAnchor && !isInternalPath);
+
+    if (isInternalPath && !openInNewTab) {
+      return (
+        <Link
+          href={link}
+          className={commonProps.className}
+          tabIndex={commonProps.tabIndex}
+          style={{ textDecoration: "none" }}
+        >
+          {inner}
+        </Link>
+      );
+    }
+
     return (
       <a
         href={link}

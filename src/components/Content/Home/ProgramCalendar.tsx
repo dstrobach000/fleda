@@ -49,7 +49,7 @@ export default function ProgramCalendar() {
       <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-light text-black">
         <div className="inline-flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-orange-500 border border-black" />
-          <span>Fléda</span>
+          <span>Fleda</span>
         </div>
         <div className="inline-flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-[#a3f730] border border-black" />

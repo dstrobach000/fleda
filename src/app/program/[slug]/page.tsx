@@ -13,7 +13,7 @@ type ProgramEventPageProps = {
 };
 
 const VENUE_LABELS: Record<VenueKey, string> = {
-  fleda: "Fléda",
+  fleda: "Fleda",
   fraktal: "Fraktal",
   bar: "Spektrum bar",
   galerie: "Spektrum galerie",
@@ -97,7 +97,7 @@ export default async function ProgramEventPage({ params }: ProgramEventPageProps
             <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <h1 className="font-light text-3xl sm:text-5xl leading-tight">{event.title}</h1>
               <div className="flex flex-wrap gap-3 sm:justify-end sm:shrink-0">
-                <GlowButton link="/program" glowColor="bg-orange-500" floating={false} forceNewTab>
+                <GlowButton link="/program" glowColor="bg-orange-500" floating={false}>
                   ZPĚT NA PROGRAM
                 </GlowButton>
                 <GlowButton link={facebookEventHref} glowColor="bg-[#2f5bff]" floating={false} forceNewTab>
@@ -228,11 +228,7 @@ export default async function ProgramEventPage({ params }: ProgramEventPageProps
           </div>
         </section>
       </div>
-
-      <div className="border-t border-black w-full"></div>
-      <div className="max-w-[1200px] mx-auto w-full">
-        <Footer />
-      </div>
+      <Footer />
     </main>
   );
 }

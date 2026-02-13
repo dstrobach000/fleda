@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import SearchOverlay from "@/components/BuildingBlocks/SearchOverlay";
 
 export default function HeaderTopControls() {
@@ -13,9 +14,15 @@ export default function HeaderTopControls() {
     { name: "TikTok", href: "https://www.tiktok.com/tag/fl%C3%A9da", icon: "TT" },
   ];
 
+  const venueLinks = [
+    { name: "Spektrum bar", href: "https://spektrumbar.cz", glowColor: "bg-[#ff9ff5]" },
+    { name: "Spektrum galerie", href: "https://www.spektrumgalerie.cz", glowColor: "bg-[#a3f730]" },
+    { name: "Fraktal", href: "https://instagram.com/fraktal_noise", glowColor: "bg-[#2f5bff]" },
+  ];
+
   return (
     <>
-      <div className="hidden sm:flex justify-between items-center mb-0 flex-wrap gap-2 w-full min-w-0">
+      <div className="hidden sm:flex justify-between items-center mb-4 md:mb-6 flex-wrap gap-2 w-full min-w-0 relative">
         <div className="flex gap-2 flex-shrink-0">
           {socialLinks.map((social) => (
             <div key={social.name} className="p-1 flex-shrink-0">
@@ -30,6 +37,20 @@ export default function HeaderTopControls() {
                 <span className="text-xs sm:text-sm">{social.icon}</span>
               </a>
             </div>
+          ))}
+        </div>
+
+        <div className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+          {venueLinks.map((venue) => (
+            <GlowButton
+              key={venue.name}
+              link={venue.href}
+              glowColor={venue.glowColor}
+              floating={false}
+              className="px-3 sm:px-3 py-1 text-sm leading-none"
+            >
+              {`→ ${venue.name}`}
+            </GlowButton>
           ))}
         </div>
 
@@ -61,4 +82,3 @@ export default function HeaderTopControls() {
     </>
   );
 }
-

@@ -15,7 +15,6 @@ export default function Navigation() {
   const menuPopoverRef = useRef<HTMLDivElement | null>(null);
 
   const menuItems = [
-    { label: "Upcoming", href: isHome ? "#upcoming" : "/#upcoming" },
     { label: "Program", href: "/program" },
     { label: "Novinky", href: isHome ? "#novinky" : "/#novinky" },
     { label: "Fotoreporty", href: isHome ? "#fotoreporty" : "/#fotoreporty" },
@@ -170,7 +169,7 @@ export default function Navigation() {
       </div>
 
       {/* Desktop: all buttons inline */}
-      <div className="hidden sm:grid sm:grid-cols-6 gap-2 sm:gap-3 md:gap-4 w-full min-w-0 max-w-full">
+      <div className="hidden sm:grid sm:grid-cols-5 gap-2 sm:gap-3 md:gap-4 w-full min-w-0 max-w-full">
         {menuItems.map((item) => (
           <div key={item.label} className="w-full">
             <GlowButton link={item.href} glowColor="bg-orange-500" floating={false} className="w-full text-center">

@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "@/components/Layout/Header";
 import Navigation from "@/components/Layout/Navigation";
+import Footer from "@/components/Layout/Footer";
 import ProgramSection from "@/components/Content/Home/ProgramSection";
 import { getProgramCalendarEvents } from "@/lib/programEvents";
 
@@ -20,6 +21,7 @@ export default async function ProgramPage() {
           <ProgramSection programEvents={programEvents} headingHref="#program" />
         </section>
       </div>
+      <Footer />
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import EventTagButton from "@/components/BuildingBlocks/Buttons/EventTagButton";
 import { formatCzWeekdayShort, formatProgramEventDate } from "@/utils/dateFormat";
 import type { CalendarEvent, VenueKey } from "@/types/program";
@@ -30,7 +31,7 @@ function venueTag(venue: VenueKey): { label: string; glowColor: string } {
       return { label: "FRAKTAL", glowColor: "bg-[#2f5bff]" };
     case "fleda":
     default:
-      return { label: "FLÉDA", glowColor: "bg-orange-500" };
+      return { label: "FLEDA", glowColor: "bg-orange-500" };
   }
 }
 
@@ -98,7 +99,7 @@ export default function HomeProgramSection({ programEvents = [] }: HomeProgramSe
   return (
     <div className="w-full">
       <h2 className="font-light text-xl sm:text-2xl text-black">
-        <a href="/program" className="inline-flex items-center gap-2">
+        <Link href="/program" className="inline-flex items-center gap-2">
           <span>Program</span>
           <span className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-black">
             <svg
@@ -115,7 +116,7 @@ export default function HomeProgramSection({ programEvents = [] }: HomeProgramSe
               <path d="m13 5 7 7-7 7"></path>
             </svg>
           </span>
-        </a>
+        </Link>
       </h2>
 
       <div className="mt-4 w-full border border-black rounded-xl p-6 bg-gray-200">

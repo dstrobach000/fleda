@@ -2,6 +2,8 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import CookieBanner from "@/components/Legal/CookieBanner";
 import TitleSetter from "@/components/TitleSetter";
+import { BlueprintSingletonProvider } from "@/components/BuildingBlocks/3D/BlueprintSingletonProvider";
+import { LogoSingletonProvider } from "@/components/BuildingBlocks/Logo/LogoSingletonProvider";
 import type { Metadata } from "next";
 
 export const viewport = {
@@ -80,9 +82,13 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-gray-200">
-        <TitleSetter />
-        {children}
-        <CookieBanner />
+        <BlueprintSingletonProvider>
+          <LogoSingletonProvider>
+            <TitleSetter />
+            {children}
+            <CookieBanner />
+          </LogoSingletonProvider>
+        </BlueprintSingletonProvider>
       </body>
     </html>
   );
