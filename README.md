@@ -112,14 +112,15 @@ Detailed sync configuration examples live in `docs/google-calendar-sync.md`.
 - Public navigation is route-driven through `/menu`, not a shared horizontal header nav.
 - `src/app/layout.tsx` renders a `modal` slot, and `src/app/@modal/(.)menu/page.tsx` intercepts `/menu` so the menu opens as an overlay on top of `/`, `/program`, and `/program/[slug]`.
 - The public header is scale-driven from a header-local `font-size` and uses `em`-based sizing for the shared control height, logo size, and spacing.
-- The header itself now renders socials, compact 3D logo, search, and the full-width upcoming-event bar; the large logo + blueprint media treatment lives inside the menu overlay.
-- `HeaderTopControls` composes dedicated header primitives for circular action buttons, the inline 3D logo pill, and the upcoming-event bar.
-- `src/components/Layout/Navigation.tsx` renders a fixed floating `Menu` button that uses `src/components/BuildingBlocks/Buttons/useFloatingButtonPosition.ts` to align itself to the right edge of the main shell and just below the header controls.
+- `src/components/Layout/Header.tsx` now renders the upcoming-event bar as its own fixed top rail, with `HeaderTopControls` sitting below it inside the page flow.
+- While `#header` is visible, `HeaderTopControls` renders the compact inline `Menu` button alongside socials, the compact 3D logo, and search. Once the header scrolls out of view, `src/components/Layout/Navigation.tsx` takes over and renders the sticky floating `Menu` button instead.
+- `HeaderTopControls` composes dedicated header primitives for circular action buttons, the inline 3D logo pill, and the header rail spacing contract.
+- `src/components/Layout/Navigation.tsx` uses `src/components/BuildingBlocks/Buttons/useFloatingButtonPosition.ts` to align the sticky `Menu` button to the right edge of the main shell and just below the fixed upcoming rail.
 - `src/components/BuildingBlocks/Buttons/useFloatingButtonPosition.ts` is also the shared right-edge positioning contract for the modal `Zavřít` button. Keep those two controls aligned.
 - The menu trigger stores the current route in `sessionStorage` so closing `/menu` can return the visitor to the page they opened it from.
 - The large logo + blueprint 3D treatment now lives in the menu overlay via `src/components/Layout/BrandMediaRow.tsx`, not in the page header.
 - Menu anchor links depend on the existing section IDs `header`, `novinky`, `fotoreporty`, and `merch`.
-- `HeaderTopControls` remains the mobile-safe container for socials, the compact logo, search, and the upcoming pill.
+- `HeaderTopControls` remains the mobile-safe container for socials, the compact logo, search, and the inline menu trigger.
 
 ## Editorial Model Changes
 
@@ -127,6 +128,7 @@ Detailed sync configuration examples live in `docs/google-calendar-sync.md`.
 - Website header data is resolved by `getHeaderUpcomingEvent()` in `src/lib/programEvents.ts`; it prefers the `upcoming` singleton selection and falls back to the first confirmed program event.
 - Synced Google events no longer populate a public `programTime` field. Editors instead manage the public-facing `showStart` label manually in Sanity.
 - Event documents now include `privateNotes`, `showTicketsButton`, and `ticketsUrl` so editors can manage internal notes and optional external ticket CTAs without code changes.
+- Program month and venue filters now use the shared `PillDropdown` component instead of native `<select>` controls so the homepage and `/program` keep one pill-style interaction pattern.
 
 ## Dependency Notes
 

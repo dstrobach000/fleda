@@ -17,7 +17,7 @@ type Props = {
  */
 const StickyCloseButton = ({ label = "Zavřít", className = "", onClick }: Props) => {
   const router = useRouter();
-  const { right } = useFloatingButtonPosition();
+  const { right, top } = useFloatingButtonPosition();
 
   const handleDefault = () => {
     router.push("/", { scroll: false });
@@ -28,7 +28,7 @@ const StickyCloseButton = ({ label = "Zavřít", className = "", onClick }: Prop
       className="fixed"
       style={{
         right: `${right}px`,
-        top: "calc(1rem + env(safe-area-inset-top))",
+        top: `${top}px`,
         zIndex: 10000,
       }}
     >

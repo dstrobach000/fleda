@@ -79,10 +79,12 @@ Important `event` fields:
 
 - The website renders from Sanity data through `src/lib/programEvents.ts`.
 - `src/components/Layout/Header.tsx` renders a scale-driven header whose composition lives in `HeaderTopControls`.
-- The header uses dedicated `HeaderActionButton`, `HeaderLogo`, and `HeaderUpcomingBar` primitives so socials, search, menu, and the upcoming pill share one sizing contract.
+- The header uses dedicated `HeaderActionButton`, `HeaderLogo`, and `HeaderUpcomingBar` primitives so socials, search, menu, and the upcoming rail share one sizing contract.
 - The header no longer renders the homepage 3D blueprint block; that larger logo + blueprint composition remains available inside the route-driven menu overlay.
+- The upcoming bar is rendered as a fixed top rail, while the rest of the header remains in normal document flow with top padding that clears the rail.
 - `/menu` exists both as a direct route and an intercepted modal route through `src/app/menu/page.tsx` and `src/app/@modal/(.)menu/page.tsx`.
-- `src/components/Layout/Navigation.tsx` renders a fixed floating `Menu` button; opening it records the current route in `sessionStorage` so closing the menu can return to the origin page.
+- While the header is visible, `HeaderTopControls` renders the compact inline `Menu` button. `src/components/Layout/Navigation.tsx` only renders the floating sticky `Menu` button after the header scrolls out of view.
+- Opening the menu records the current route in `sessionStorage` so closing the menu can return to the origin page.
 - `src/components/Content/MenuContent.tsx` owns the menu CTA list, including the internal anchor links and external venue links.
 - The homepage route in `src/app/page.tsx` composes its sections directly instead of routing through a shared homepage wrapper.
 - Homepage sections are split into individual components:
@@ -97,6 +99,7 @@ Important `event` fields:
 - Below `md`, those sections stack in a single column, and `merch` remains a full-width section below them.
 - The compact upcoming event pill now lives in the header; the homepage `upcoming` section keeps only its title/link plus the promo image and CTA.
 - Header upcoming data comes from `getHeaderUpcomingEvent()`, which first reads the `upcoming` singleton and then falls back to the first confirmed program event.
+- `src/components/BuildingBlocks/Buttons/PillDropdown.tsx` is the shared interactive dropdown used by both homepage program previews and the full `/program` page filters.
 - Program pages only show `event` documents where `confirmed == true`.
 - If `SANITY_API_READ_TOKEN` and `SANITY_INCLUDE_DRAFT_EVENTS=true` are set, website reads can include confirmed drafts through Sanity `previewDrafts`.
 

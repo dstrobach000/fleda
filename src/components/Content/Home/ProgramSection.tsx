@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import EventTagButton from "@/components/BuildingBlocks/Buttons/EventTagButton";
+import PillDropdown from "@/components/BuildingBlocks/Buttons/PillDropdown";
 import { formatCzWeekdayShort, formatProgramEventDate } from "@/utils/dateFormat";
 import type { CalendarEvent, VenueKey } from "@/types/program";
 
@@ -102,6 +103,14 @@ export default function ProgramSection({
   const [activeMonth, setActiveMonth] = useState<string>(() =>
     months.includes(currentMonthKey) ? currentMonthKey : (months[0] ?? currentMonthKey)
   );
+  const monthOptions = useMemo(
+    () =>
+      months.map((month) => ({
+        label: monthLabelFromKey(month),
+        value: month,
+      })),
+    [months]
+  );
 
   useEffect(() => {
     if (!months.includes(activeMonth)) {
@@ -196,47 +205,25 @@ export default function ProgramSection({
       <div className="mt-4 w-full border border-black rounded-xl p-6 bg-gray-200">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="relative inline-flex items-center">
-              <label htmlFor="program-month" className="sr-only">
-                Vyber měsíc
-              </label>
-              <select
-                id="program-month"
-                value={activeMonth}
-                onChange={(e) => {
-                  setActiveMonth(e.target.value);
-                }}
-                className="appearance-none inline-flex items-center rounded-full border border-black px-4 py-1 pr-9 font-light text-base sm:text-lg bg-gray-200 focus:outline-none font-sans"
-              >
-                {months.map((m) => (
-                  <option key={m} value={m}>
-                    {monthLabelFromKey(m)}
-                  </option>
-                ))}
-              </select>
-              <span className="pointer-events-none absolute right-3 text-black/70">▾</span>
-            </div>
+            <PillDropdown
+              id="program-month"
+              label="Vyber měsíc"
+              value={activeMonth}
+              options={monthOptions}
+              onChange={setActiveMonth}
+              className="text-base sm:text-lg"
+            />
 
-            <div className="relative inline-flex items-center">
-              <label htmlFor="program-venue-filter" className="sr-only">
-                Filtr podle místa
-              </label>
-              <select
-                id="program-venue-filter"
-                value={activeVenueFilter}
-                onChange={(e) => {
-                  setActiveVenueFilter(e.target.value as "all" | VenueKey);
-                }}
-                className="appearance-none inline-flex items-center rounded-full border border-black px-4 py-1 pr-9 font-light text-sm sm:text-base bg-gray-200 focus:outline-none font-sans"
-              >
-                {VENUE_FILTER_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <span className="pointer-events-none absolute right-3 text-black/70">▾</span>
-            </div>
+            <PillDropdown
+              id="program-venue-filter"
+              label="Filtr podle místa"
+              value={activeVenueFilter}
+              options={VENUE_FILTER_OPTIONS}
+              onChange={(nextValue) => {
+                setActiveVenueFilter(nextValue as "all" | VenueKey);
+              }}
+              className="text-sm sm:text-base"
+            />
 
             <div className="flex items-center gap-2">
               <button
