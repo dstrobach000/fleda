@@ -302,6 +302,25 @@ export function LogoSingletonProvider({ children }: { children: React.ReactNode 
   );
 }
 
+export function InlineLogo3D({
+  className = "",
+}: {
+  className?: string;
+}) {
+  const router = useRouter();
+
+  return (
+    <button
+      type="button"
+      onClick={() => router.push("/")}
+      className={`overflow-hidden rounded-full border border-black ${className}`}
+      aria-label="Fleda domů"
+    >
+      <PersistentLogoCanvas />
+    </button>
+  );
+}
+
 export function useLogoHost() {
   const ctx = useContext(LogoHostContext);
   if (!ctx) {

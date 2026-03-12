@@ -7,6 +7,24 @@ const VENUE_OPTIONS = [
   {title: 'Spektrum galerie', value: 'galerie'},
 ]
 
+function formatPreviewTime(value?: string) {
+  if (!value) return 'all-day'
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return 'all-day'
+
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Prague',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date)
+}
+
+function formatShowStart(value?: string) {
+  return value?.trim() || 'not set'
+}
+
 export default defineType({
   name: 'event',
   title: 'Events',
@@ -49,15 +67,15 @@ export default defineType({
     }),
     defineField({
       name: 'startDateTime',
-      title: 'Start (datetime)',
+      title: 'Event start',
       type: 'datetime',
-      description: 'Raw event start from Google Calendar (if available).',
+      description: 'Raw start datetime sourced from Google Calendar when available.',
     }),
     defineField({
-      name: 'endDateTime',
-      title: 'End (datetime)',
-      type: 'datetime',
-      description: 'Raw event end from Google Calendar (if available).',
+      name: 'showStart',
+      title: 'Show start',
+      type: 'string',
+      description: 'Manual public-facing start label shown on the website.',
     }),
     defineField({
       name: 'programDate',
@@ -67,17 +85,18 @@ export default defineType({
       description: 'Date used by the website calendar list.',
     }),
     defineField({
-      name: 'programTime',
-      title: 'Program time',
-      type: 'string',
-      description: 'Time shown on the website (HH:mm). Keep empty for all-day events.',
-    }),
-    defineField({
       name: 'description',
       title: 'Popis akce',
       type: 'array',
       of: [{type: 'block'}],
       description: 'Rich text description shown on the event detail page.',
+    }),
+    defineField({
+      name: 'privateNotes',
+      title: 'Notes (private)',
+      type: 'text',
+      rows: 4,
+      description: 'Internal notes for event managers only. Never shown on the website.',
     }),
     defineField({
       name: 'venueNeedsReview',
@@ -130,6 +149,33 @@ export default defineType({
           scheme: ['http', 'https'],
           allowRelative: false,
         }),
+    }),
+    defineField({
+      name: 'showTicketsButton',
+      title: 'Show "Lístky" button',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Enable this when ticket sales happen on an external service.',
+    }),
+    defineField({
+      name: 'ticketsUrl',
+      title: '"Lístky" link URL',
+      type: 'url',
+      hidden: ({document}) => !document?.showTicketsButton,
+      description: 'External ticket sales URL opened by the public Lístky button.',
+      validation: (rule) =>
+        rule
+          .uri({
+            scheme: ['http', 'https'],
+            allowRelative: false,
+          })
+          .custom((value, context) => {
+            if (context.document?.showTicketsButton && !value) {
+              return 'Add a link when the "Lístky" button is enabled.'
+            }
+
+            return true
+          }),
     }),
     defineField({
       name: 'gooutIframeUrl',
@@ -193,7 +239,8 @@ export default defineType({
       title: 'title',
       venue: 'venue',
       date: 'programDate',
-      time: 'programTime',
+      showStart: 'showStart',
+      startDateTime: 'startDateTime',
       confirmed: 'confirmed',
     },
     prepare(selection) {
@@ -206,7 +253,7 @@ export default defineType({
 
       const venue = selection.venue ? venueLabels[selection.venue] || selection.venue : 'Unknown venue'
       const date = selection.date || 'No date'
-      const time = selection.time || 'all-day'
+      const time = selection.showStart ? formatShowStart(selection.showStart) : formatPreviewTime(selection.startDateTime)
       const confirmed = selection.confirmed ? 'confirmed' : 'not confirmed'
 
       return {

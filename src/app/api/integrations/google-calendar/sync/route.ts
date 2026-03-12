@@ -184,7 +184,7 @@ function mapVenue(event: GoogleCalendarEvent): {venue: VenueKey; venueNeedsRevie
   return {venue: "fleda", venueNeedsReview: true};
 }
 
-function toPragueDateParts(dateTimeIso: string): {date: string; time: string} {
+function toPragueDate(dateTimeIso: string): string {
   const date = new Date(dateTimeIso);
   const dateFormatter = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Prague",
@@ -193,17 +193,7 @@ function toPragueDateParts(dateTimeIso: string): {date: string; time: string} {
     day: "2-digit",
   });
 
-  const timeFormatter = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Europe/Prague",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-
-  return {
-    date: dateFormatter.format(date),
-    time: timeFormatter.format(date),
-  };
+  return dateFormatter.format(date);
 }
 
 function slugify(input: string): string {
@@ -362,14 +352,11 @@ async function runSync(req: NextRequest) {
       const title = (event.summary || "Untitled event").trim();
       const startDateTime = event.start?.dateTime;
       const startDate = event.start?.date;
-      const endDateTime = event.end?.dateTime;
       const mappedVenue = mapVenue(event);
       const venue = calendarSource.venue || mappedVenue.venue;
       const venueNeedsReview = calendarSource.venue ? false : mappedVenue.venueNeedsReview;
 
-      const dateParts = startDateTime ? toPragueDateParts(startDateTime) : undefined;
-      const programDate = startDate || dateParts?.date;
-      const programTime = dateParts?.time || "";
+      const programDate = startDate || (startDateTime ? toPragueDate(startDateTime) : undefined);
 
       if (!programDate) {
         return [];
@@ -385,9 +372,7 @@ async function runSync(req: NextRequest) {
         venue,
         venueNeedsReview,
         startDateTime,
-        endDateTime,
         programDate,
-        programTime,
         googleEventId: event.id,
         googleCalendarId: calendarSource.id,
         googleHtmlLink: event.htmlLink,
@@ -405,7 +390,6 @@ async function runSync(req: NextRequest) {
             slug: {_type: "slug", current: slug},
             venue,
             programDate,
-            programTime,
             googleEventId: event.id,
             googleCalendarId: calendarSource.id,
             source: "google",

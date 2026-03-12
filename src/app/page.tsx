@@ -2,7 +2,11 @@ import React from "react";
 import Navigation from "@/components/Layout/Navigation";
 import Header from "@/components/Layout/Header";
 import HomeClient from "@/components/Content/HomeClient";
-import HomeSections from "@/components/Content/HomeSections";
+import UpcomingEvents from "@/components/Content/Home/UpcomingEvents";
+import ProgramPreviewSection from "@/components/Content/Home/ProgramPreviewSection";
+import NovinkySection from "@/components/Content/Home/NovinkySection";
+import FotoreportySection from "@/components/Content/Home/FotoreportySection";
+import MerchSection from "@/components/Content/Home/MerchSection";
 import { getProgramCalendarEvents } from "@/lib/programEvents";
 
 export default async function Home() {
@@ -10,15 +14,19 @@ export default async function Home() {
 
   return (
     <main className="bg-gray-200 text-black font-sans flex flex-col min-h-screen relative">
-      <div className="max-w-[1200px] mx-auto w-full">
+      <div id="main-shell" className="max-w-[1200px] mx-auto w-full">
         <div className="flex-grow">
           <Header />
-          <div className="sm:sticky sm:top-0 z-50 bg-transparent">
-            <div className="px-6 pt-0 pb-2 sm:pt-2">
-              <Navigation />
-            </div>
+          <Navigation />
+          <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+            <UpcomingEvents />
+            <ProgramPreviewSection programEvents={programEvents} />
           </div>
-          <HomeSections programEvents={programEvents} />
+          <div className="grid grid-cols-1 md:grid-cols-2 md:items-start">
+            <NovinkySection />
+            <FotoreportySection />
+          </div>
+          <MerchSection />
         </div>
       </div>
 

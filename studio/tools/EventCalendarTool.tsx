@@ -9,7 +9,8 @@ type EventDoc = {
   _updatedAt?: string
   title?: string
   programDate?: string
-  programTime?: string
+  startDateTime?: string
+  showStart?: string
   venue?: VenueKey
   confirmed?: boolean
 }
@@ -24,12 +25,13 @@ type CalendarEvent = {
   updatedAt: string
 }
 
-const EVENT_QUERY = `*[_type == "event" && defined(programDate)] | order(programDate asc, programTime asc) {
+const EVENT_QUERY = `*[_type == "event" && defined(programDate)] | order(programDate asc, startDateTime asc) {
   _id,
   _updatedAt,
   title,
   programDate,
-  programTime,
+  startDateTime,
+  showStart,
   venue,
   confirmed
 }`
@@ -118,6 +120,24 @@ function stripDraftPrefix(id: string): string {
   return id.startsWith('drafts.') ? id.slice(7) : id
 }
 
+function formatEventTime(startDateTime?: string): string {
+  if (!startDateTime) return ''
+
+  const date = new Date(startDateTime)
+  if (Number.isNaN(date.getTime())) return ''
+
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Prague',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date)
+}
+
+function displayEventTime(event: EventDoc): string {
+  return event.showStart?.trim() || formatEventTime(event.startDateTime)
+}
+
 function normalizeEvents(rawEvents: EventDoc[]): CalendarEvent[] {
   const bestByCanonicalId = new Map<string, EventDoc>()
 
@@ -154,7 +174,7 @@ function normalizeEvents(rawEvents: EventDoc[]): CalendarEvent[] {
       id: event._id,
       title: event.title || 'Untitled event',
       date: event.programDate || '',
-      time: event.programTime || '',
+      time: displayEventTime(event),
       venue: event.venue as VenueKey,
       confirmed: Boolean(event.confirmed),
       updatedAt: event._updatedAt || '',

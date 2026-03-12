@@ -1,9 +1,20 @@
-# Sanity Clean Content Studio
+# Fleda Studio
 
-Congratulations, you have now installed the Sanity Content Studio, an open-source real-time content editing environment connected to the Sanity backend.
+This directory contains the Sanity Studio application for the Fleda site.
 
-Now you can do the following things:
+Primary references:
 
-- [Read “getting started” in the docs](https://www.sanity.io/docs/introduction/getting-started?utm_source=readme)
-- [Join the Sanity community](https://www.sanity.io/community/join?utm_source=readme)
-- [Extend and build plugins](https://www.sanity.io/docs/content-studio/extending?utm_source=readme)
+- `../README.md`: repo-level setup, validation, and environment notes
+- `../docs/architecture.md`: architecture and content model
+- `../docs/google-calendar-sync.md`: Google Calendar import behavior
+- `../AGENTS.md`: repo operating guide for AI agents
+
+Common commands:
+
+```bash
+npm install
+npm run dev
+npm run lint
+npm run typecheck
+npm run build
+```

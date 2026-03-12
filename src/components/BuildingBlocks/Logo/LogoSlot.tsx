@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import clsx from "clsx";
 import { useLogoHost } from "./LogoSingletonProvider";
 
 let hostCounter = 0;
 
-export default function LogoSlot() {
+type LogoSlotProps = {
+  className?: string;
+};
+
+export default function LogoSlot({ className = "" }: LogoSlotProps) {
   const ref = useRef<HTMLDivElement>(null);
   const hostIdRef = useRef<string>(`logo-host-${hostCounter++}`);
   const { registerHost, unregisterHost } = useLogoHost();
@@ -18,7 +23,7 @@ export default function LogoSlot() {
   return (
     <div
       ref={ref}
-      className="relative rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto"
+      className={clsx("relative rounded-full overflow-hidden", className || "aspect-[3/1] w-full h-[150px] md:h-auto")}
     >
       <div className="w-full h-full" />
     </div>

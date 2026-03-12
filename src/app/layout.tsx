@@ -46,8 +46,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: ReactNode;
+  modal: ReactNode;
 }) {
   return (
     <html lang="cs" className="bg-gray-200">
@@ -86,6 +88,7 @@ export default function RootLayout({
           <LogoSingletonProvider>
             <TitleSetter />
             {children}
+            {modal}
             <CookieBanner />
           </LogoSingletonProvider>
         </BlueprintSingletonProvider>

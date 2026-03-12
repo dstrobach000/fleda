@@ -23,13 +23,15 @@ export type ProgramEventDetail = {
   id: string;
   slug: string;
   date: string; // YYYY-MM-DD
-  time: string; // HH:mm, may be empty for all-day events
+  time: string;
   title: string;
   venue: VenueKey;
   startDateTime?: string;
-  endDateTime?: string;
+  showStart?: string;
   description?: PortableTextBlock[];
   facebookEventLink?: string;
+  showTicketsButton?: boolean;
+  ticketsUrl?: string;
   gooutIframeUrl?: string;
   smsticketIframeUrl?: string;
   youtubeEmbedUrl?: string;

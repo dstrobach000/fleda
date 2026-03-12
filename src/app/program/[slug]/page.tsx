@@ -21,18 +21,6 @@ const VENUE_LABELS: Record<VenueKey, string> = {
 
 const FACEBOOK_FALLBACK_URL = "https://facebook.com";
 
-function formatDateTimeWithZone(value?: string) {
-  if (!value) return null;
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-
-  return new Intl.DateTimeFormat("cs-CZ", {
-    dateStyle: "medium",
-    timeStyle: "short",
-    timeZone: "Europe/Prague",
-  }).format(date);
-}
-
 function portableTextToParagraphs(blocks?: PortableTextBlock[]) {
   if (!Array.isArray(blocks)) return [];
   return blocks
@@ -72,21 +60,15 @@ export default async function ProgramEventPage({ params }: ProgramEventPageProps
   const dateLabel = formatCzDateLong(event.date);
   const weekdayLabel = formatCzWeekdayLong(event.date);
   const venueLabel = VENUE_LABELS[event.venue];
-  const startDateTimeLabel = formatDateTimeWithZone(event.startDateTime);
-  const endDateTimeLabel = formatDateTimeWithZone(event.endDateTime);
-  const startLabel = startDateTimeLabel ?? (event.time ? `${dateLabel} ${event.time}` : `${dateLabel} celý den`);
+  const showStartLabel = event.time || "Neuvedeno";
   const descriptionParagraphs = portableTextToParagraphs(event.description);
   const facebookEventHref = event.facebookEventLink || FACEBOOK_FALLBACK_URL;
 
   return (
     <main className="bg-gray-200 text-black font-sans flex flex-col min-h-screen">
-      <div className="max-w-[1200px] mx-auto w-full flex-grow">
+      <div id="main-shell" className="max-w-[1200px] mx-auto w-full flex-grow">
         <Header />
-        <div className="sm:sticky sm:top-0 z-50 bg-transparent">
-          <div className="px-6 pt-0 pb-2 sm:pt-2">
-            <Navigation />
-          </div>
-        </div>
+        <Navigation />
 
         <section className="px-6 pt-6 pb-8">
           <div className="w-full border border-black rounded-xl p-6 sm:p-8 bg-gray-200">
@@ -100,6 +82,11 @@ export default async function ProgramEventPage({ params }: ProgramEventPageProps
                 <GlowButton link="/program" glowColor="bg-orange-500" floating={false}>
                   ZPĚT NA PROGRAM
                 </GlowButton>
+                {event.showTicketsButton && event.ticketsUrl ? (
+                  <GlowButton link={event.ticketsUrl} glowColor="bg-[#a3f730]" floating={false} forceNewTab>
+                    LÍSTKY
+                  </GlowButton>
+                ) : null}
                 <GlowButton link={facebookEventHref} glowColor="bg-[#2f5bff]" floating={false} forceNewTab>
                   FACEBOOK EVENT
                 </GlowButton>
@@ -115,17 +102,8 @@ export default async function ProgramEventPage({ params }: ProgramEventPageProps
                 </div>
 
                 <div className="rounded-xl border border-black bg-gray-300 p-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-black/60">Termín</p>
-                  <div className="mt-2 space-y-1 text-sm font-light text-black/90">
-                    <p>
-                      <span className="text-black/65">Začátek:</span> {startLabel}
-                    </p>
-                    {endDateTimeLabel && (
-                      <p>
-                        <span className="text-black/65">Konec:</span> {endDateTimeLabel}
-                      </p>
-                    )}
-                  </div>
+                  <p className="text-xs uppercase tracking-[0.14em] text-black/60">Show start</p>
+                  <p className="mt-2 text-lg font-light">{showStartLabel}</p>
                 </div>
 
                 <div className="rounded-xl border border-black bg-gray-300 p-4">

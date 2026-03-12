@@ -1,11 +1,29 @@
 "use client";
 
 import React, { useState } from "react";
-import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import SearchOverlay from "@/components/BuildingBlocks/SearchOverlay";
+import HeaderActionButton from "@/components/Layout/HeaderActionButton";
+import HeaderLogo from "@/components/Layout/HeaderLogo";
+import HeaderUpcomingBar from "@/components/Layout/HeaderUpcomingBar";
+import type { CalendarEvent } from "@/types/program";
 
-export default function HeaderTopControls() {
+type HeaderTopControlsProps = {
+  upcomingEvent?: CalendarEvent | null;
+};
+
+export default function HeaderTopControls({
+  upcomingEvent = null,
+}: HeaderTopControlsProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const layoutStyle = {
+    fontSize: "clamp(0.82rem, 0.72rem + 0.5vw, 1.08rem)",
+    ["--header-gap" as string]: "0.7em",
+    ["--header-control-size" as string]: "2.8em",
+    ["--header-logo-height" as string]: "calc(var(--header-control-size) * 3)",
+    ["--header-logo-width" as string]: "calc(var(--header-logo-height) * 3)",
+    ["--header-logo-height-mobile" as string]: "calc(var(--header-control-size) * 1.1)",
+    ["--header-logo-width-mobile" as string]: "calc(var(--header-logo-height-mobile) * 3)",
+  } as React.CSSProperties;
 
   const socialLinks = [
     { name: "Facebook", href: "https://www.facebook.com/fledaclub/", icon: "FB" },
@@ -13,68 +31,58 @@ export default function HeaderTopControls() {
     // Use an encoded URL to avoid issues with the "é" character across browsers.
     { name: "TikTok", href: "https://www.tiktok.com/tag/fl%C3%A9da", icon: "TT" },
   ];
-
-  const venueLinks = [
-    { name: "Spektrum bar", href: "https://spektrumbar.cz", glowColor: "bg-[#ff9ff5]" },
-    { name: "Spektrum galerie", href: "https://www.spektrumgalerie.cz", glowColor: "bg-[#a3f730]" },
-    { name: "Fraktal", href: "https://instagram.com/fraktal_noise", glowColor: "bg-[#2f5bff]" },
-  ];
+  const renderSocialButtons = () =>
+    socialLinks.map((social) => (
+      <HeaderActionButton key={social.name} href={social.href} ariaLabel={social.name}>
+        <span className="text-[0.58em] leading-none">{social.icon}</span>
+      </HeaderActionButton>
+    ));
+  const renderSearchButton = () => (
+    <HeaderActionButton ariaLabel="Vyhledávání" onClick={() => setIsSearchOpen(true)}>
+      <svg
+        style={{ width: "0.44em", height: "0.44em" }}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+    </HeaderActionButton>
+  );
 
   return (
     <>
-      <div className="hidden sm:flex justify-between items-center mb-4 md:mb-6 flex-wrap gap-2 w-full min-w-0 relative">
-        <div className="flex gap-2 flex-shrink-0">
-          {socialLinks.map((social) => (
-            <div key={social.name} className="p-1 flex-shrink-0">
-              <a
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full font-light text-black border border-black bg-transparent hover:bg-gray-300 transition-colors flex items-center justify-center"
-                style={{ aspectRatio: "1/1" }}
-                aria-label={social.name}
-              >
-                <span className="text-xs sm:text-sm">{social.icon}</span>
-              </a>
-            </div>
-          ))}
+      <div id="header-top-controls" className="relative z-20 w-full min-w-0" style={layoutStyle}>
+        <div className="mb-[var(--header-gap)] min-w-0">
+          <HeaderUpcomingBar upcomingEvent={upcomingEvent} />
         </div>
 
-        <div className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
-          {venueLinks.map((venue) => (
-            <GlowButton
-              key={venue.name}
-              link={venue.href}
-              glowColor={venue.glowColor}
-              floating={false}
-              className="px-3 sm:px-3 py-1 text-sm leading-none"
-            >
-              {`→ ${venue.name}`}
-            </GlowButton>
-          ))}
+        <div className="grid min-w-0 grid-cols-[1fr_auto_1fr] items-start md:hidden">
+          <div className="flex min-w-0 items-start gap-[calc(var(--header-gap)*0.5)] justify-self-start">
+            {renderSocialButtons()}
+          </div>
+          <div className="justify-self-center">
+            <HeaderLogo className="h-[calc(var(--header-control-size)*1.1)] w-[calc(var(--header-control-size)*3.1)]" />
+          </div>
+          <div className="justify-self-end">
+            {renderSearchButton()}
+          </div>
         </div>
 
-        <div className="p-1 flex-shrink-0 ml-auto">
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full font-light text-black border border-black bg-transparent hover:bg-gray-300 transition-colors flex items-center justify-center"
-            style={{ aspectRatio: "1/1" }}
-            aria-label="Vyhledávání"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.35-4.35"></path>
-            </svg>
-          </button>
+        <div className="hidden min-w-0 grid-cols-[1fr_auto_1fr] items-start md:grid">
+          <div className="flex min-w-0 items-start gap-[calc(var(--header-gap)*0.5)] justify-self-start">
+            {renderSocialButtons()}
+          </div>
+          <div className="justify-self-center">
+            <HeaderLogo />
+          </div>
+          <div className="justify-self-end">
+            {renderSearchButton()}
+          </div>
         </div>
       </div>
 

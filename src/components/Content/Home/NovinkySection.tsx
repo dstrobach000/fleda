@@ -7,7 +7,7 @@ import Section from "./Section";
 export default function NovinkySection() {
   return (
     <Section id="novinky" title="Novinky">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <div className="border border-black rounded-xl p-6 bg-gray-200">
           <div className="flex flex-wrap items-center gap-2 text-xs font-light text-black/70 mb-3">
             <span className="whitespace-nowrap">12. 01. 26</span>
@@ -49,5 +49,4 @@ export default function NovinkySection() {
     </Section>
   );
 }
-
 

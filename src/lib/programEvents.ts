@@ -6,8 +6,10 @@ type RawCalendarEvent = {
   slug?: string;
   title?: string;
   date?: string;
-  time?: string;
   venue?: VenueKey;
+  startDateTime?: string;
+  showStart?: string;
+  confirmed?: boolean;
 };
 
 type RawProgramEventDetail = {
@@ -15,12 +17,13 @@ type RawProgramEventDetail = {
   slug?: string;
   title?: string;
   date?: string;
-  time?: string;
   venue?: VenueKey;
   startDateTime?: string;
-  endDateTime?: string;
+  showStart?: string;
   description?: PortableTextBlock[];
   facebookEventLink?: string;
+  showTicketsButton?: boolean;
+  ticketsUrl?: string;
   gooutIframeUrl?: string;
   smsticketIframeUrl?: string;
   youtubeEmbedUrl?: string;
@@ -38,10 +41,8 @@ function isValidSlug(value: string | undefined): value is string {
   return Boolean(value && value.trim());
 }
 
-function sanitizeTime(value: string | undefined): string {
-  if (!value) return "";
-  if (/^\d{2}:\d{2}$/.test(value)) return value;
-  return "";
+function sanitizeShowStart(value: string | undefined): string {
+  return value?.trim() || "";
 }
 
 function getReadOptions() {
@@ -54,40 +55,82 @@ function getReadOptions() {
   } as const;
 }
 
+function isValidCalendarEvent(item: RawCalendarEvent): item is RawCalendarEvent & {
+  slug: string;
+  title: string;
+  date: string;
+  venue: VenueKey;
+} {
+  return Boolean(
+    isValidDate(item.date) &&
+      isValidSlug(item.slug) &&
+      item.title &&
+      item.venue &&
+      ALLOWED_VENUES.has(item.venue)
+  );
+}
+
+function toCalendarEvent(item: RawCalendarEvent): CalendarEvent {
+  return {
+    id: item._id,
+    slug: item.slug as string,
+    date: item.date as string,
+    time: sanitizeShowStart(item.showStart),
+    title: item.title as string,
+    venue: item.venue as VenueKey,
+  };
+}
+
 export async function getProgramCalendarEvents(): Promise<CalendarEvent[]> {
-  const query = `*[_type == "event" && confirmed == true && defined(programDate)] | order(programDate asc, programTime asc) {
+  const query = `*[_type == "event" && confirmed == true && defined(programDate)] | order(programDate asc, startDateTime asc) {
     _id,
     "slug": slug.current,
     title,
     "date": programDate,
-    "time": programTime,
-    venue
+    venue,
+    startDateTime,
+    showStart
   }`;
 
   try {
     const result = await sanityQuery<RawCalendarEvent[]>(query, getReadOptions());
 
     return result
-      .filter(
-        (item) =>
-          isValidDate(item.date) &&
-          isValidSlug(item.slug) &&
-          item.title &&
-          item.venue &&
-          ALLOWED_VENUES.has(item.venue)
-      )
-      .map((item) => ({
-        id: item._id,
-        slug: item.slug as string,
-        date: item.date as string,
-        time: sanitizeTime(item.time),
-        title: item.title as string,
-        venue: item.venue as VenueKey,
-      }));
+      .filter(isValidCalendarEvent)
+      .map(toCalendarEvent);
   } catch (error) {
     console.error("Failed to fetch program events from Sanity:", error);
     return [];
   }
+}
+
+export async function getHeaderUpcomingEvent(): Promise<CalendarEvent | null> {
+  const query = `*[_type == "upcoming" && _id == "upcoming"][0]{
+    "event": event->{
+      _id,
+      "slug": slug.current,
+      title,
+      "date": programDate,
+      venue,
+      startDateTime,
+      showStart,
+      confirmed
+    }
+  }`;
+
+  try {
+    const result = await sanityQuery<{event?: RawCalendarEvent | null} | null>(query, getReadOptions());
+    const selectedEvent = result?.event;
+
+    if (selectedEvent?.confirmed && isValidCalendarEvent(selectedEvent)) {
+      return toCalendarEvent(selectedEvent);
+    }
+  } catch (error) {
+    console.error("Failed to fetch header upcoming event from Sanity:", error);
+  }
+
+  const [fallbackEvent] = await getProgramCalendarEvents();
+  return fallbackEvent ?? null;
 }
 
 export async function getProgramEventBySlug(slug: string): Promise<ProgramEventDetail | null> {
@@ -98,12 +141,13 @@ export async function getProgramEventBySlug(slug: string): Promise<ProgramEventD
     "slug": slug.current,
     title,
     "date": programDate,
-    "time": programTime,
     venue,
     startDateTime,
-    endDateTime,
+    showStart,
     description,
     facebookEventLink,
+    showTicketsButton,
+    ticketsUrl,
     gooutIframeUrl,
     smsticketIframeUrl,
     youtubeEmbedUrl,
@@ -121,13 +165,15 @@ export async function getProgramEventBySlug(slug: string): Promise<ProgramEventD
       id: result._id,
       slug: result.slug,
       date: result.date,
-      time: sanitizeTime(result.time),
+      time: sanitizeShowStart(result.showStart),
       title: result.title,
       venue: result.venue,
       startDateTime: result.startDateTime,
-      endDateTime: result.endDateTime,
+      showStart: result.showStart,
       description: result.description,
       facebookEventLink: result.facebookEventLink,
+      showTicketsButton: Boolean(result.showTicketsButton),
+      ticketsUrl: result.ticketsUrl,
       gooutIframeUrl: result.gooutIframeUrl,
       smsticketIframeUrl: result.smsticketIframeUrl,
       youtubeEmbedUrl: result.youtubeEmbedUrl,
